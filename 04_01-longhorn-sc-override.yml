@@ -1,0 +1,58 @@
+# change default number of replicas, when I do that in GUI it doesn't reflect
+apiVersion: v1
+items:
+- allowVolumeExpansion: true
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"},"name":"do-block-storage"},"provisioner":"dobs.csi.digitalocean.com","reclaimPolicy":"Delete"}
+      storageclass.kubernetes.io/is-default-class: "true"
+    creationTimestamp: "2021-06-09T10:29:20Z"
+    name: do-block-storage
+    resourceVersion: "337"
+    uid: ee43c5d2-eab2-4544-891e-7d3c39a22676
+  provisioner: dobs.csi.digitalocean.com
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+- allowVolumeExpansion: true
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    annotations:
+      longhorn.io/last-applied-configmap: |
+        kind: StorageClass
+        apiVersion: storage.k8s.io/v1
+        metadata:
+          name: longhorn
+        provisioner: driver.longhorn.io
+        allowVolumeExpansion: true
+        reclaimPolicy: Delete
+        volumeBindingMode: Immediate
+        parameters:
+          numberOfReplicas: "2"
+          staleReplicaTimeout: "2880"
+          fromBackup: ""
+        #  backingImage: "bi-test"
+        #  backingImageURL: "https://backing-image-example.s3-region.amazonaws.com/test-backing-image"
+        #  diskSelector: "ssd,fast"
+        #  nodeSelector: "storage,fast"
+        #  recurringJobs: '[{"name":"snap", "task":"snapshot", "cron":"*/1 * * * *", "retain":1},
+        #                   {"name":"backup", "task":"backup", "cron":"*/2 * * * *", "retain":1,
+        #                    "labels": {"interval":"2m"}}]'
+    creationTimestamp: "2021-06-09T10:58:54Z"
+    name: longhorn
+    resourceVersion: "4204"
+    uid: 7e98fd28-f8bc-4591-be91-db5c40482dae
+  parameters:
+    fromBackup: ""
+    numberOfReplicas: "3"
+    staleReplicaTimeout: "2880"
+  provisioner: driver.longhorn.io
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
